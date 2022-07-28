@@ -46,6 +46,7 @@ export class GraphView extends View {
     this.$(this.container)
       .addClass(this.prefixClassName('graph'))
       .append(fragment)
+    this.svg.tabIndex = -1
 
     this.delegateEvents()
   }
@@ -204,7 +205,9 @@ export class GraphView extends View {
       if (this.options.preventDefaultBlankAction) {
         e.preventDefault()
       }
-
+      // Event went to the canvas
+      // in which case the canvas itself should get document focus
+      this.$(this.svg).trigger('focus')
       this.graph.trigger('blank:mousedown', {
         e,
         x: localPoint.x,
